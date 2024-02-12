@@ -27,8 +27,9 @@ def solve():
     sitekey = json_data["sitekey"]
     invisible = json_data["invisible"]
     url = json_data["url"]
+    proxy = json_data.get("proxy","")
     with playwright.sync_api.sync_playwright() as p:
-        s = solver.Solver(p, headless=True)
+        s = solver.Solver(p,proxy=proxy,headless=True)
         start_time = time.time()
         token = s.solve(url, sitekey, invisible)
         print(f"took {time.time() - start_time} seconds :: " + token[:10])
