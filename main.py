@@ -22,13 +22,13 @@ def index():
     return flask.redirect("https://github.com/Euro-pol/turnaround-api")
 
 @app.route("/solve", methods=["POST"])
-def solve():
+async def solve():
     json_data = flask.request.json
     sitekey = json_data["sitekey"]
     invisible = json_data["invisible"]
     url = json_data["url"]
     proxy = json_data.get("proxy","")
-    with playwright.sync_api.sync_playwright() as p:
+    with playwright.async_api.async_playwright() as p:
         s = solver.Solver(p,proxy=proxy,headless=True)
         start_time = time.time()
         token = s.solve(url, sitekey, invisible)
