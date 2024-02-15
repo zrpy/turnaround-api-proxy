@@ -9,7 +9,7 @@ class Solver:
 
         await self.start_browser(self.playwright)
             
-    def terminate(self):
+    async def terminate(self):
         await self.browser.close()
 
     def build_page_data(self):
