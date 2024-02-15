@@ -1,25 +1,14 @@
 import playwright.sync_api
-import requests
 import flask
 import json
 import time
-import os
-
-def setup_solver(): #please body dont sue me
-    if not os.path.exists("utils"): os.mkdir("utils")
-    files = ["https://raw.githubusercontent.com/Body-Alhoha/turnaround/main/utils/solver.py", "https://raw.githubusercontent.com/Body-Alhoha/turnaround/main/utils/page.html"]
-    for file in files:
-        r = requests.get(file).text
-        with open("utils/" + file.split("/")[-1], "w") as f:
-            f.write(r)
-
-setup_solver()
-app = flask.Flask(__name__)
 from utils import solver
+app = flask.Flask(__name__)
+
 
 @app.route("/")
 def index():
-    return flask.redirect("https://github.com/Euro-pol/turnaround-api")
+    return flask.redirect("https://github.com/zrpy/turnaround-api-proxy")
 
 @app.route("/solve", methods=["POST"])
 async def solve():
@@ -28,12 +17,10 @@ async def solve():
     invisible = json_data["invisible"]
     url = json_data["url"]
     proxy = json_data.get("proxy","")
-    with playwright.async_api.async_playwright() as p:
-        s = solver.Solver(p,proxy=proxy,headless=True)
-        start_time = time.time()
-        token = s.solve(url, sitekey, invisible)
-        print(f"took {time.time() - start_time} seconds :: " + token[:10])
-        s.terminate()
+    async with playwright.async_api.async_playwright() as p:
+        s = await solver.Solver(p,proxy=proxy,headless=True)
+        token = await s.solve(url, sitekey, invisible)
+        await s.terminate()
         return (await make_response(token))
 
 async def make_response(captcha_key):
@@ -42,4 +29,4 @@ async def make_response(captcha_key):
     return flask.jsonify({"status": "success", "token": captcha_key})
 
 if __name__ == "__main__":
-    app.run()
+    app.run(host="0.0.0.0",port=443,threaded=True,debug=False)
