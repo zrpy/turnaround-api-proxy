@@ -34,9 +34,9 @@ async def solve():
         token = s.solve(url, sitekey, invisible)
         print(f"took {time.time() - start_time} seconds :: " + token[:10])
         s.terminate()
-        return make_response(token)
+        return (await make_response(token))
 
-def make_response(captcha_key):
+async def make_response(captcha_key):
     if captcha_key == "failed":
         return flask.jsonify({"status": "error", "token": None})
     return flask.jsonify({"status": "success", "token": captcha_key})
