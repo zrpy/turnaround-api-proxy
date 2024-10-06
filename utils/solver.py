@@ -6,9 +6,6 @@ class Solver:
         self.playwright = playwright
         self.proxy = proxy
         self.headless = headless
-
-        await self.start_browser(self.playwright)
-            
     async def terminate(self):
         await self.browser.close()
 
