@@ -151,7 +151,7 @@ class Solver:
         await self.context.close()
         return output
 
-    def start_browser(self, playwright):
+    async def start_browser(self, playwright):
 
         if self.proxy:
             self.browser = await playwright.firefox.launch(headless=self.headless, proxy={
