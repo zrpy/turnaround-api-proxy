@@ -1,4 +1,4 @@
-import playwright.sync_api
+import playwright.async_api
 import flask
 import json
 import time
