@@ -61,7 +61,7 @@ class Solver:
             self.current_x = self.random_x
             self.current_y = self.random_y
             elem = await self.page.query_selector("[name=cf-turnstile-response]")
-            if await  elem:
+            if elem:
                 if await elem.get_attribute("value"):
                     return await elem.get_attribute("value")
             time.sleep(random.randint(2, 5) / random.randint(400, 600))
