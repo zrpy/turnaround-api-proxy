@@ -2,7 +2,7 @@
 Cloudflare turnstile solver API, based on [turnaround](https://github.com/Body-Alhoha/turnaround). Made using Python & flask
 
 ## Example  
-Python code example [here](https://github.com/Euro-pol/turnaround-api/blob/main/example.py)
+Python code example [here](https://github.com/zrpy/turnaround-api-proxy/blob/main/example.py)
 
 ## Installing  
 First, install the requirements:  
